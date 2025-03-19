@@ -19,6 +19,7 @@ const leadSchema = new mongoose.Schema(
     usedDiscountCodes: { type: String, enum: ["Yes", "No"], default: "No" },
     daysSinceLastPurchase: { type: Number, default: 0 },
     leadScore: { type: Number, default: 0 },
+    leadCategory: { type: String, enum: ["Cold", "Warm", "Hot"], default: "Cold" }, // New field
   },
   { timestamps: true }
 );

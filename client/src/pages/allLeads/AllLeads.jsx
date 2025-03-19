@@ -52,6 +52,7 @@ const AllLeads = () => {
                             <th>Phone</th>
                             <th>City</th>
                             <th>Lead Score</th>
+                            <th>Category</th> {/* New column */}
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -63,6 +64,7 @@ const AllLeads = () => {
                                 <td>{lead.phone}</td>
                                 <td>{lead.city}</td>
                                 <td>{lead.leadScore}</td>
+                                <td>{lead.leadCategory}</td> {/* Display lead category */}
                                 <td>
                                     <button
                                         className="delete-button"

@@ -18,6 +18,12 @@ mongoose
 // Initialize Gemini AI
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
+const getLeadCategory = (score) => {
+  if (score >= 80) return "Hot";
+  if (score >= 60 && score < 80) return "Warm";
+  return "Cold";
+};
+
 app.post("/api/getLeadScore", async (req, res) => {
   try {
     const {
@@ -65,6 +71,8 @@ Email engagement and discount usage are additional engagement indicators, where 
     // Extract lead score
     const leadScore = parseInt(responseText.match(/\d+/)[0], 10) || 0;
 
+    const leadCategory = getLeadCategory(leadScore); // Determine lead category
+
     // Check if email exists in the database
     const existingLead = await Lead.findOne({ email });
 
@@ -72,14 +80,22 @@ Email engagement and discount usage are additional engagement indicators, where 
       // Update existing lead
       await Lead.updateOne(
         { email },
-        { ...req.body, leadScore }
+        { ...req.body, leadScore, leadCategory } // Include leadCategory
       );
-      res.status(200).json({ message: "Lead score updated", leadScore });
+      res
+        .status(200)
+        .json({ message: "Lead score updated", leadScore, leadCategory });
     } else {
       // Save new lead to MongoDB
-      const newLead = new Lead({ ...req.body, leadScore });
+      const newLead = new Lead({ ...req.body, leadScore, leadCategory }); // Include leadCategory
       await newLead.save();
-      res.status(200).json({ message: "Lead score generated and saved", leadScore });
+      res
+        .status(200)
+        .json({
+          message: "Lead score generated and saved",
+          leadScore,
+          leadCategory,
+        });
     }
   } catch (error) {
     console.error("Error generating lead score:", error);
