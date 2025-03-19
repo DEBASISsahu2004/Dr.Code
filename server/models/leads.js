@@ -9,7 +9,7 @@ const leadSchema = new mongoose.Schema(
     gender: { type: String, enum: ["Male", "Female", "Other"], required: true },
     age: { type: Number, min: 0 },
     city: { type: String },
-    membership: { type: String, enum: ["Basic", "Premium", "VIP"] },
+    membership: { type: String, enum: ["Basic", "Bronze", "Silver", "Gold"] },
     frequencyOfVisit: { type: Number, default: 0 },
     itemsInCart: { type: Number, default: 0 },
     numberOfOrders: { type: Number, default: 0 },
